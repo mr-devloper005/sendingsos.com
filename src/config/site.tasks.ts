@@ -48,6 +48,14 @@ export const siteTaskDefinitions = [
     enabled: false,
   },
   {
+    key: 'social',
+    label: 'Social',
+    route: '/community',
+    description: 'Short updates and community signals.',
+    contentType: 'social',
+    enabled: false,
+  },
+  {
     key: 'comment',
     label: 'Blog Commenting',
     route: '/blog',

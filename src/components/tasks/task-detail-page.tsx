@@ -167,6 +167,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
   const images = getImageUrls(post, content);
   const mapEmbedUrl = buildMapEmbedUrl(content.latitude, content.longitude, location);
   const isBookmark = task === "sbm" || task === "social";
+  const isSocial = task === "social";
   const hideSidebar = isClassified || isArticle || task === "image" || isBookmark;
   const related = (await fetchTaskPosts(task, 6))
     .filter((item) => item.slug !== post.slug)
@@ -245,6 +246,85 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
         <Footer />
       </div>
     );
+  }
+
+  if (isSocial) {
+    return (
+      <div className="min-h-screen bg-[linear-gradient(180deg,#fbf4ed_0%,#f3e8df_48%,#ecddd1_100%)] text-[#452829]">
+        <NavbarShell />
+        <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+          <SchemaJsonLd data={schemaPayload} />
+          <Link href={taskConfig?.route || "/"} className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-[#6c5c58] hover:text-[#452829]">
+            ← Back to {taskConfig?.label || "posts"}
+          </Link>
+
+          <section className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+            <div className="space-y-6">
+              <div className="rounded-[2.25rem] border border-[#d8c7bc] bg-[#fffaf7] p-7 shadow-[0_24px_70px_rgba(69,40,41,0.08)]">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8a766e]">{category}</p>
+                <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">{post.title}</h1>
+                <p className="mt-4 text-sm leading-8 text-[#6c5c58]">{description}</p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {postTags.length ? (
+                    postTags.slice(0, 4).map((tag) => (
+                      <span key={tag} className="rounded-full border border-[#e1d0c3] bg-[#f7ebe1] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#5f514d]">
+                        {tag}
+                      </span>
+                    ))
+                  ) : null}
+                </div>
+              </div>
+
+              {images[0] ? (
+                <div className="overflow-hidden rounded-[2.2rem] border border-[#d8c7bc] bg-[#fffaf7] shadow-[0_24px_70px_rgba(69,40,41,0.08)]">
+                  <div className="relative aspect-[16/10]">
+                    <ContentImage src={images[0]} alt={`${post.title} featured image`} fill className="object-cover" intrinsicWidth={1600} intrinsicHeight={900} />
+                  </div>
+                </div>
+              ) : null}
+            </div>
+
+            <aside className="space-y-6">
+              <div className="rounded-[2rem] border border-[#d8c7bc] bg-[#fffaf7] p-6 shadow-[0_24px_70px_rgba(69,40,41,0.08)]">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8a766e]">Conversation notes</p>
+                <div className="mt-4 space-y-3">
+                  {[
+                    'Short-form update with stronger spacing.',
+                    'Community signals get a calmer, premium frame.',
+                    'Related posts stay visible without crowding the page.',
+                  ].map((item) => (
+                    <div key={item} className="rounded-[1.1rem] border border-[#e1d0c3] bg-[#f7ebe1] px-4 py-4 text-sm text-[#5f514d]">
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {related.length ? (
+                <div className="rounded-[2rem] border border-[#d8c7bc] bg-[#fffaf7] p-6 shadow-[0_24px_70px_rgba(69,40,41,0.08)]">
+                  <div className="flex items-center justify-between gap-4">
+                    <h2 className="text-lg font-semibold">Related updates</h2>
+                    <Link href={taskConfig?.route || "/"} className="text-sm font-medium text-[#6c5c58] hover:text-[#452829]">
+                      View all
+                    </Link>
+                  </div>
+                  <div className="mt-4 space-y-4">
+                    {related.map((item) => (
+                      <Link key={item.id} href={buildPostUrl(task, item.slug)} className="block rounded-[1.1rem] border border-[#e1d0c3] bg-white px-4 py-4 transition hover:border-[#cbb4a5]">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8a766e]">Community</p>
+                        <h3 className="mt-2 text-base font-semibold text-[#452829]">{item.title}</h3>
+                        <p className="mt-2 text-sm leading-7 text-[#6c5c58]">{item.summary || 'A related short-form signal with the same premium treatment.'}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </aside>
+          </section>
+        </main>
+        <Footer />
+      </div>
+    )
   }
 
   return (

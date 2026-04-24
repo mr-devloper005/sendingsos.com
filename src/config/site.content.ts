@@ -2,69 +2,69 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent reading platform',
+    tagline: 'Curated classified marketplace',
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
+    tagline: 'Premium classifieds, trusted listings, and sharp utility',
   },
   hero: {
-    badge: 'Latest stories and visuals',
-    title: ['A thoughtful home for', 'stories, visuals, and discovery.'],
+    badge: 'Premium local classifieds',
+    title: ['A refined home for', 'classifieds, listings, and support lanes.'],
     description:
-      'Explore fresh articles, image-led posts, and discoverable content across the platform through a calmer and clearer browsing experience.',
+      'Explore curated classifieds, business listings, and supporting content through a calmer, more premium browsing experience.',
     primaryCta: {
-      label: 'Read latest stories',
-      href: '/articles',
+      label: 'Browse classifieds',
+      href: '/classifieds',
     },
     secondaryCta: {
-      label: 'Explore visuals',
-      href: '/images',
+      label: 'Open listings',
+      href: '/listings',
     },
-    searchPlaceholder: 'Search stories, visuals, listings, and more',
-    focusLabel: 'Focus',
-    featureCardBadge: 'latest cover rotation',
-    featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
+    searchPlaceholder: 'Search classifieds, listings, articles, and PDFs',
+    focusLabel: 'Priority lanes',
+    featureCardBadge: 'premium reference',
+    featureCardTitle: 'The homepage now reads like a premium classifieds desk.',
     featureCardDescription:
-      'Recent images and stories stay at the center of the experience without changing any core platform behavior.',
+      'Primary and secondary tasks stay in focus while the rest move into lighter surfaces, search, and the footer.',
   },
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
+      title: 'Premium classifieds and listings',
       description:
-        'Explore articles, images, listings, and curated posts through a cleaner reading-first experience.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
+        'Explore classifieds, listings, articles, PDFs, and social updates through a premium utility-first experience.',
+      openGraphTitle: 'Premium classifieds and listings',
       openGraphDescription:
-        'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+        'Discover premium classifieds, trusted listings, and supporting content through a calmer marketplace-first experience.',
+      keywords: ['classified marketplace', 'premium listings', 'local discovery', 'content discovery'],
     },
-    introBadge: 'About the platform',
-    introTitle: 'Built for reading, browsing, and connecting different kinds of content.',
+    introBadge: 'Reference direction',
+    introTitle: 'Built like a premium classifieds desk with a curated edge.',
     introParagraphs: [
-      'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
-      'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
-      'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
+      'The new direction keeps classifieds and listings front and center, then folds articles, PDFs, and social updates into quieter support surfaces.',
+      'Rather than repeating one template across every route, each task type gets its own rhythm so the site feels intentionally designed.',
+      'This gives the homepage a premium, utility-first voice without breaking task access, routes, or existing content flows.',
     ],
     sideBadge: 'At a glance',
     sidePoints: [
-      'Reading-first homepage with stronger emphasis on stories and imagery.',
-      'Connected sections for articles, visuals, listings, and supporting resources.',
-      'Cleaner browsing rhythm designed to make exploration feel easier.',
-      'Lightweight interactions that keep the experience fast and readable.',
+      'Primary and secondary tasks stay visible while support tasks move into secondary navigation.',
+      'Articles, PDFs, and social updates use their own layout rhythm instead of a repeated card stack.',
+      'Warm neutral palette and serif-sans pairing create a more premium feel.',
+      'Fast, CSS-led effects keep the experience lightweight and accessible.',
     ],
     primaryLink: {
-      label: 'Browse articles',
-      href: '/articles',
+      label: 'Browse classifieds',
+      href: '/classifieds',
     },
     secondaryLink: {
-      label: 'See visuals',
-      href: '/images',
+      label: 'Open listings',
+      href: '/listings',
     },
   },
   cta: {
     badge: 'Start exploring',
-    title: 'Explore articles, visuals, and resources through one connected experience.',
+    title: 'Explore classifieds, listings, and support lanes through one connected experience.',
     description:
-      'Move between articles, image-led posts, listings, and resources through one clearer and more connected visual system.',
+      'Move between classified posts, curated listings, articles, PDFs, and social updates through one clearer visual system.',
     primaryCta: {
       label: 'Get Started Free',
       href: '/register',

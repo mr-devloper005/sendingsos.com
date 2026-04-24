@@ -4,7 +4,20 @@ import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus } from 'lucide-react'
+import {
+  Search,
+  Menu,
+  X,
+  User,
+  FileText,
+  Building2,
+  LayoutGrid,
+  Tag,
+  Image as ImageIcon,
+  ChevronRight,
+  Sparkles,
+  Plus,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
@@ -81,9 +94,9 @@ const directoryPalette = {
     logo: 'rounded-xl border border-[#d7deca] bg-white',
     nav: 'text-[#56604b] hover:text-[#1f2617]',
     search: 'border border-[#d7deca] bg-white text-[#56604b]',
-    cta: 'bg-[#1f2617] text-[#edf5dc] hover:bg-[#2f3a24]',
-    post: 'border border-[#d7deca] bg-white text-[#1f2617] hover:bg-[#eef2e4]',
-    mobile: 'border-t border-[#d7deca] bg-[#f4f6ef]',
+  cta: 'bg-[#1f2617] text-[#edf5dc] hover:bg-[#2f3a24]',
+  post: 'border border-[#d7deca] bg-white text-[#1f2617] hover:bg-[#eef2e4]',
+  mobile: 'border-t border-[#d7deca] bg-[#f4f6ef]',
   },
 } as const
 
@@ -109,90 +122,70 @@ export function Navbar() {
 
   if (isDirectoryProduct) {
     const palette = directoryPalette[(recipe.brandPack === 'market-utility' ? 'market-utility' : 'directory-clean') as keyof typeof directoryPalette]
-
     return (
-      <header className={cn('sticky top-0 z-50 w-full', palette.shell)}>
-        <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <div className="flex min-w-0 items-center gap-4">
-            <Link href="/" className="flex shrink-0 items-center gap-3">
-              <div className={cn('flex h-12 w-12 items-center justify-center overflow-hidden p-1.5', palette.logo)}>
-                <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
-              </div>
-              <div className="min-w-0 hidden sm:block">
-                <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
-                <span className="block text-[10px] uppercase tracking-[0.24em] opacity-60">{siteContent.navbar.tagline}</span>
-              </div>
-            </Link>
+      <header className={cn('sticky top-0 z-50 w-full border-b border-[#d8c7bc]/60 bg-[rgba(255,248,241,0.88)] backdrop-blur-2xl', palette.shell)}>
+        <nav className="mx-auto grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
+          <Link href="/" className="flex shrink-0 items-center gap-3">
+            <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-none bg-transparent shadow-none">
+              <img src="/favicon.png?v=20260424" alt={`${SITE_CONFIG.name} logo`} width="56" height="56" className="h-full w-full object-contain" />
+            </div>
+            <div className="hidden min-w-0 sm:block">
+              <span className="block truncate text-lg font-semibold text-[#452829]">{SITE_CONFIG.name}</span>
+              <span className="block text-[10px] uppercase tracking-[0.28em] text-[#6c5c58]">{siteContent.navbar.tagline}</span>
+            </div>
+          </Link>
 
-            <div className="hidden items-center gap-5 xl:flex">
-              {primaryNavigation.slice(0, 4).map((task) => {
-                const isActive = pathname.startsWith(task.route)
-                return (
-                  <Link key={task.key} href={task.route} className={cn('text-sm font-semibold transition-colors', isActive ? 'text-foreground' : palette.nav)}>
-                    {task.label}
-                  </Link>
-                )
-              })}
+          <div className="hidden min-w-0 items-center justify-center gap-3 lg:flex">
+            <div className="flex min-w-[320px] max-w-xl flex-1 items-center gap-3 rounded-full border border-[#d8c7bc] bg-[#fffaf7] px-4 py-3 text-sm text-[#6c5c58] shadow-[0_14px_36px_rgba(69,40,41,0.06)]">
+              <Search className="h-4 w-4 shrink-0 text-[#452829]" />
+              <span className="truncate">Search the site</span>
             </div>
           </div>
 
-          <div className="hidden min-w-0 flex-1 items-center justify-center lg:flex">
-            <div className={cn('flex w-full max-w-xl items-center gap-3 rounded-full px-4 py-3', palette.search)}>
-              <Search className="h-4 w-4" />
-              <span className="text-sm">Find businesses, spaces, and local services</span>
-              <div className="ml-auto hidden items-center gap-1 text-xs opacity-75 md:flex">
-                <MapPin className="h-3.5 w-3.5" />
-                Local discovery
-              </div>
-            </div>
-          </div>
-
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            {primaryTask ? (
-              <Link href={primaryTask.route} className="hidden items-center gap-2 rounded-full border border-current/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] opacity-75 md:inline-flex">
-                <Sparkles className="h-3.5 w-3.5" />
-                {primaryTask.label}
-              </Link>
-            ) : null}
-
+          <div className="flex items-center justify-end gap-2 sm:gap-3">
             {isAuthenticated ? (
               <NavbarAuthControls />
             ) : (
               <div className="hidden items-center gap-2 md:flex">
-                <Button variant="ghost" size="sm" asChild className="rounded-full px-4">
-                  <Link href="/login">Sign In</Link>
+                <Button variant="ghost" size="sm" asChild className="rounded-full border border-[#d8c7bc] px-4 text-[#452829] hover:bg-[#efe3da]">
+                  <Link href="/login">Sign in</Link>
                 </Button>
-                <Button size="sm" asChild className={cn('rounded-full', palette.cta)}>
+                <Button size="sm" asChild className="rounded-full bg-[#452829] px-4 text-[#fff8f3] hover:bg-[#5a3436]">
                   <Link href="/register">
                     <Plus className="mr-1 h-4 w-4" />
-                    Add Listing
+                    Post classified
                   </Link>
                 </Button>
               </div>
             )}
 
-            <Button variant="ghost" size="icon" className="rounded-full lg:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            <Button variant="ghost" size="icon" className="rounded-full border border-[#d8c7bc] bg-[#fffaf7] text-[#452829] hover:bg-[#efe3da] lg:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
               {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
           </div>
         </nav>
 
         {isMobileMenuOpen && (
-          <div className={palette.mobile}>
-            <div className="space-y-2 px-4 py-4">
-              <div className={cn('mb-3 flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium', palette.search)}>
-                <Search className="h-4 w-4" />
-                Find businesses, spaces, and services
+          <div className="border-t border-[#d8c7bc] bg-[#fffaf7]">
+            <div className="mx-auto max-w-7xl space-y-3 px-4 py-4 sm:px-6 lg:px-8">
+              <div className="flex items-center gap-3 rounded-[1.2rem] border border-[#d8c7bc] bg-[#f6ece4] px-4 py-3 text-sm text-[#6c5c58]">
+                <Search className="h-4 w-4 text-[#452829]" />
+                Search the site
               </div>
-              {mobileNavigation.map((item) => {
-                const isActive = pathname.startsWith(item.href)
-                return (
-                  <Link key={item.name} href={item.href} onClick={() => setIsMobileMenuOpen(false)} className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', isActive ? 'bg-foreground text-background' : palette.post)}>
-                    <item.icon className="h-5 w-5" />
-                    {item.name}
-                  </Link>
-                )
-              })}
+              {!isAuthenticated ? (
+                <div className="grid gap-2 pt-2 sm:grid-cols-2">
+                  <Button variant="ghost" size="sm" asChild className="rounded-full border border-[#d8c7bc] px-4 text-[#452829] hover:bg-[#efe3da]">
+                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                      Sign in
+                    </Link>
+                  </Button>
+                  <Button size="sm" asChild className="rounded-full bg-[#452829] px-4 text-[#fff8f3] hover:bg-[#5a3436]">
+                    <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>
+                      Post classified
+                    </Link>
+                  </Button>
+                </div>
+              ) : null}
             </div>
           </div>
         )}
@@ -210,8 +203,8 @@ export function Navbar() {
       <nav className={cn('mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8', isFloating ? 'h-24 pt-4' : 'h-20')}>
         <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-7">
           <Link href="/" className="flex shrink-0 items-center gap-3 whitespace-nowrap pr-2">
-            <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden p-1.5', style.logo)}>
-              <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+            <div className={cn('flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden', style.logo, 'rounded-none border-0 bg-transparent p-0 shadow-none')}>
+                <img src="/favicon.png?v=20260424" alt={`${SITE_CONFIG.name} logo`} width="56" height="56" className="h-full w-full object-contain" />
             </div>
             <div className="min-w-0 hidden sm:block">
               <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
