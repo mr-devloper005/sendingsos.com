@@ -4,6 +4,15 @@ import { SITE_CONFIG, type TaskKey, getTaskConfig } from "./site-config";
 import { fetchSiteBootstrap, type SitePost } from "./site-connector";
 
 const baseUrl = SITE_CONFIG.baseUrl.replace(/\/$/, "");
+const siteIcons: Metadata["icons"] = {
+  icon: [
+    { url: "/favicon.ico" },
+    { url: "/favico.ico" },
+    { url: "/favicon.png?v=20260424", type: "image/png" },
+  ],
+  apple: [{ url: "/apple-icon.png" }],
+  shortcut: ["/favicon.ico"],
+};
 
 export const canonicalForPath = (path = "/") =>
   `${baseUrl}${path.startsWith("/") ? path : `/${path}`}`;
@@ -232,6 +241,7 @@ export async function buildSiteMetadata(): Promise<Metadata> {
     },
     description: siteDescription,
     keywords: ctx.keywords,
+    icons: siteIcons,
     robots: buildRobots(ctx.robotsIndex, ctx.robotsFollow),
     authors: [{ name: SITE_CONFIG.name }],
     creator: SITE_CONFIG.name,
@@ -277,6 +287,7 @@ export async function buildPageMetadata(options: PageMetadataOptions): Promise<M
     title,
     description,
     keywords: mergeKeywords(ctx.keywords, options.keywords),
+    icons: siteIcons,
     robots: buildRobots(ctx.robotsIndex, ctx.robotsFollow),
     alternates: {
       canonical,
@@ -368,6 +379,7 @@ export const buildPostMetadata = async (task: TaskKey, post: SitePost): Promise<
     title,
     description,
     keywords: mergeKeywords(ctx.keywords, post.tags || []),
+    icons: siteIcons,
     robots: buildRobots(ctx.robotsIndex, ctx.robotsFollow),
     authors: [{ name: author }],
     alternates: { canonical: url },

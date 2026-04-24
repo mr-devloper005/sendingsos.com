@@ -56,10 +56,10 @@ const getImageUrl = (post: SitePost, content: ListingContent) => {
 
 const cardStyles = {
   'listing-elevated': {
-    frame: 'rounded-[1.9rem] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)] hover:-translate-y-1 hover:shadow-[0_28px_75px_rgba(15,23,42,0.14)]',
-    muted: 'text-slate-600',
-    title: 'text-slate-950',
-    badge: 'bg-slate-950 text-white',
+    frame: 'rounded-[1.9rem] border border-[#d8c7bc] bg-[#fffaf7] shadow-[0_20px_60px_rgba(69,40,41,0.08)] hover:-translate-y-1 hover:shadow-[0_28px_75px_rgba(69,40,41,0.14)]',
+    muted: 'text-[#6c5c58]',
+    title: 'text-[#452829]',
+    badge: 'bg-[#452829] text-[#fff8f3]',
   },
   'editorial-feature': {
     frame: 'rounded-[1.8rem] border border-[rgba(125,83,45,0.12)] bg-[#fffaf3] shadow-[0_18px_55px_rgba(89,52,24,0.1)] hover:-translate-y-1 hover:shadow-[0_26px_75px_rgba(89,52,24,0.14)]',
@@ -74,10 +74,10 @@ const cardStyles = {
     badge: 'bg-[#8df0c8] text-[#07111f]',
   },
   'catalog-grid': {
-    frame: 'rounded-[1.8rem] border border-[rgba(67,78,41,0.14)] bg-[#f8faf1] shadow-[0_18px_58px_rgba(55,65,31,0.1)] hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(55,65,31,0.14)]',
-    muted: 'text-[#5b664c]',
-    title: 'text-[#1f2617]',
-    badge: 'bg-[#1f2617] text-[#edf5dc]',
+    frame: 'rounded-[1.8rem] border border-[#d8c7bc] bg-[#fff8f2] shadow-[0_18px_58px_rgba(69,40,41,0.08)] hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(69,40,41,0.14)]',
+    muted: 'text-[#6c5c58]',
+    title: 'text-[#452829]',
+    badge: 'bg-[#57595b] text-[#fff8f3]',
   },
 } as const
 
@@ -103,9 +103,11 @@ export function TaskPostCard({
   const rawCategory = content.category || post.tags?.[0] || 'Post'
   const normalizedCategory = normalizeCategory(rawCategory)
   const category = CATEGORY_OPTIONS.find((item) => item.slug === normalizedCategory)?.name || rawCategory
-  const variant = taskKey || 'listing'
+  const variant: TaskKey = taskKey || 'listing'
   const visualVariant = cardStyles[getVariantForTask(variant)]
   const isBookmarkVariant = variant === 'sbm' || variant === 'social'
+  const isPdfVariant = (variant as string) === 'pdf'
+  const isSocialVariant = (variant as string) === 'social'
   const imageAspect = variant === 'image' ? 'aspect-[4/5]' : variant === 'article' ? 'aspect-[16/10]' : variant === 'pdf' ? 'aspect-[4/5]' : variant === 'classified' ? 'aspect-[16/11]' : 'aspect-[4/3]'
   const altText = `${post.title} ${category} ${variant === 'listing' ? 'business listing' : variant} image`
   const imageSizes = variant === 'article' ? '(max-width: 640px) 90vw, (max-width: 1024px) 48vw, 420px' : variant === 'image' ? '(max-width: 640px) 82vw, (max-width: 1024px) 34vw, 320px' : '(max-width: 640px) 85vw, (max-width: 1024px) 42vw, 340px'
@@ -117,18 +119,18 @@ export function TaskPostCard({
   if (isDirectorySurface) {
     const cardTone = recipe.brandPack === 'market-utility'
       ? {
-          frame: 'rounded-[1.75rem] border border-[#d7deca] bg-white shadow-[0_18px_44px_rgba(64,76,34,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(64,76,34,0.14)]',
-          badge: 'bg-[#1f2617] text-[#edf5dc]',
-          muted: 'text-[#5b664c]',
-          title: 'text-[#1f2617]',
-          cta: 'text-[#1f2617]',
+          frame: 'rounded-[1.75rem] border border-[#d8c7bc] bg-[#fffaf7] shadow-[0_18px_44px_rgba(69,40,41,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(69,40,41,0.14)]',
+          badge: 'bg-[#452829] text-[#fff8f3]',
+          muted: 'text-[#6c5c58]',
+          title: 'text-[#452829]',
+          cta: 'text-[#452829]',
         }
       : {
-          frame: 'rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(15,23,42,0.14)]',
-          badge: 'bg-slate-950 text-white',
-          muted: 'text-slate-600',
-          title: 'text-slate-950',
-          cta: 'text-slate-950',
+          frame: 'rounded-[1.75rem] border border-[#d8c7bc] bg-[#fffaf7] shadow-[0_18px_44px_rgba(69,40,41,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(69,40,41,0.14)]',
+          badge: 'bg-[#452829] text-[#fff8f3]',
+          muted: 'text-[#6c5c58]',
+          title: 'text-[#452829]',
+          cta: 'text-[#452829]',
         }
 
     return (
@@ -156,6 +158,49 @@ export function TaskPostCard({
             {content.email ? <span className={`inline-flex items-center gap-1 ${cardTone.muted}`}><Mail className="h-3.5 w-3.5" />{content.email}</span> : null}
           </div>
           <div className={`mt-auto pt-5 text-sm font-semibold ${cardTone.cta}`}>{variant === 'classified' ? 'View offer' : 'View details'}</div>
+        </div>
+      </Link>
+    )
+  }
+
+  if (isPdfVariant) {
+    return (
+      <Link href={href} className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-[#d7c7b7] bg-[#fffaf5] shadow-[0_18px_44px_rgba(69,40,41,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(69,40,41,0.12)]">
+        <div className="relative aspect-[4/5] overflow-hidden bg-[#efe2d6]">
+          <ContentImage src={image} alt={altText} fill sizes={imageSizes} quality={75} className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" intrinsicWidth={960} intrinsicHeight={720} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2a1818]/45 via-transparent to-transparent" />
+          <span className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full bg-[#452829] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#fff8f3]">
+            <FileText className="h-3.5 w-3.5" />
+            PDF
+          </span>
+          <span className="absolute right-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#452829] shadow">
+            Document
+          </span>
+        </div>
+        <div className="flex flex-1 flex-col p-5">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8a766e]">{category}</p>
+          <h3 className="mt-2 line-clamp-2 text-[1.15rem] font-semibold leading-snug text-[#452829]">{post.title}</h3>
+          <p className="mt-3 line-clamp-4 text-sm leading-7 text-[#6c5c58]">{getExcerpt(content.description || post.summary) || 'Open the document for the full reference.'}</p>
+          <div className="mt-auto pt-4 text-sm font-semibold text-[#452829]">Open document</div>
+        </div>
+      </Link>
+    )
+  }
+
+  if (isSocialVariant) {
+    return (
+      <Link href={href} className="group flex h-full flex-col gap-4 overflow-hidden rounded-[1.6rem] border border-[#e1d0c3] bg-[#fff8f4] p-5 transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(69,40,41,0.1)]">
+        <div className="flex items-center justify-between gap-3">
+          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${visualVariant.badge}`}>
+            <Tag className="h-3.5 w-3.5" />
+            {category}
+          </span>
+          <span className="text-xs uppercase tracking-[0.18em] text-[#8a766e]">Community</span>
+        </div>
+        <h3 className="line-clamp-2 text-lg font-semibold leading-snug text-[#452829]">{post.title}</h3>
+        <p className="line-clamp-3 text-sm leading-7 text-[#6c5c58]">{getExcerpt(content.description || post.summary, compact ? 120 : 180) || 'Community signal and short-form update.'}</p>
+        <div className="mt-auto rounded-[1.1rem] border border-[#e5d5c8] bg-white px-4 py-3 text-sm leading-7 text-[#5f514d]">
+          A lighter conversation-style card for short updates, signals, and local context.
         </div>
       </Link>
     )

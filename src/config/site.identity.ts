@@ -1,10 +1,10 @@
 export const siteIdentity = {
   code: process.env.NEXT_PUBLIC_SITE_CODE || 'gdh9licoul',
   name: process.env.NEXT_PUBLIC_SITE_NAME || 'Sendingsos',
-  tagline: process.env.NEXT_PUBLIC_SITE_TAGLINE || 'Classified platform',
+  tagline: process.env.NEXT_PUBLIC_SITE_TAGLINE || 'Premium classifieds',
   description:
     process.env.NEXT_PUBLIC_SITE_DESCRIPTION ||
-    'A classified platform for browsing local posts, deals, offers, and quick marketplace-style updates.',
+    'A premium classified marketplace for browsing local posts, trusted offers, and curated updates.',
   domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || 'sendingsos.com',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://sendingsos.com',
   ogImage: process.env.NEXT_PUBLIC_SITE_OG_IMAGE || '/og-default.png',
