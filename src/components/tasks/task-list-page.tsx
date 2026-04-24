@@ -45,7 +45,7 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
   }
 
   const taskConfig = getTaskConfig(task)
-  const posts = await fetchTaskPosts(task, 30)
+  const posts = await fetchTaskPosts(task, 30, { allowMockFallback: true, fresh: true })
   const normalizedCategory = category ? normalizeCategory(category) : 'all'
   const intro = taskIntroCopy[task]
   const baseUrl = SITE_CONFIG.baseUrl.replace(/\/$/, '')
@@ -59,6 +59,9 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
   const layoutKey = recipe.taskLayouts[task as keyof typeof recipe.taskLayouts] || `${task}-${task === 'listing' ? 'directory' : 'editorial'}`
   const shellClass = variantShells[layoutKey as keyof typeof variantShells] || 'bg-background'
   const Icon = taskIcons[task] || LayoutGrid
+  const isPdf = task === 'pdf'
+  const isSocial = task === 'social'
+  const isArticleTask = task === 'article'
 
   const isDark = ['image-masonry', 'image-portfolio', 'profile-creator'].includes(layoutKey)
   const ui = isDark
@@ -69,21 +72,37 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         input: 'border-white/10 bg-white/6 text-white',
         button: 'bg-white text-slate-950 hover:bg-slate-200',
       }
-    : layoutKey.startsWith('article') || layoutKey.startsWith('sbm')
+    : isPdf
       ? {
-          muted: 'text-[#72594a]',
-          panel: 'border border-[#dbc6b6] bg-white/90',
-          soft: 'border border-[#dbc6b6] bg-[#fff8ef]',
-          input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
-          button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
+          muted: 'text-[#72584d]',
+          panel: 'border border-[#d7c7b7] bg-[#fffaf5]',
+          soft: 'border border-[#d7c7b7] bg-[#f4e8dc]',
+          input: 'border border-[#d7c7b7] bg-white text-[#452829]',
+          button: 'bg-[#452829] text-[#fff8f3] hover:bg-[#5a3436]',
         }
-      : {
-          muted: 'text-slate-600',
-          panel: 'border border-slate-200 bg-white',
-          soft: 'border border-slate-200 bg-slate-50',
-          input: 'border border-slate-200 bg-white text-slate-950',
-          button: 'bg-slate-950 text-white hover:bg-slate-800',
-        }
+      : isSocial
+        ? {
+            muted: 'text-[#6c5c58]',
+            panel: 'border border-[#d7c7b7] bg-[#fff8f4]',
+            soft: 'border border-[#e1d0c3] bg-[#f7ebe1]',
+            input: 'border border-[#d7c7b7] bg-white text-[#452829]',
+            button: 'bg-[#57595b] text-[#fff8f3] hover:bg-[#434547]',
+          }
+        : isArticleTask || layoutKey.startsWith('sbm')
+          ? {
+              muted: 'text-[#72594a]',
+              panel: 'border border-[#dbc6b6] bg-white/90',
+              soft: 'border border-[#dbc6b6] bg-[#fff8ef]',
+              input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
+              button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
+            }
+          : {
+              muted: 'text-slate-600',
+              panel: 'border border-slate-200 bg-white',
+              soft: 'border border-slate-200 bg-slate-50',
+              input: 'border border-slate-200 bg-white text-slate-950',
+              button: 'bg-slate-950 text-white hover:bg-slate-800',
+            }
 
   return (
     <div className={`min-h-screen ${shellClass}`}>
@@ -118,6 +137,56 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
               hasPart: schemaItems,
             }}
           />
+        ) : null}
+        {isPdf ? (
+          <section className="mb-12 grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
+            <div className={`rounded-[2.2rem] p-7 ${ui.panel}`}>
+              <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] opacity-70">
+                <Icon className="h-4 w-4" />
+                PDF archive
+              </div>
+              <h1 className="mt-4 max-w-4xl text-5xl font-semibold tracking-[-0.05em] text-foreground">Documents laid out like a premium reference shelf.</h1>
+              <p className={`mt-4 max-w-2xl text-sm leading-8 ${ui.muted}`}>The PDF lane is designed to feel structured and utilitarian, with cleaner filters, stronger metadata, and a document-first reading frame.</p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link href={taskConfig?.route || '#'} className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${ui.button}`}>
+                  Browse archive
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="/search" className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${ui.soft}`}>Search documents</Link>
+              </div>
+            </div>
+            <div className={`rounded-[2.2rem] p-6 ${ui.soft}`}>
+              <p className={`text-xs font-semibold uppercase tracking-[0.24em] ${ui.muted}`}>Document controls</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {['View file', 'Download', 'Open related', 'Filter by category'].map((item) => (
+                  <div key={item} className={`rounded-[1.35rem] px-4 py-4 text-sm font-medium ${ui.panel}`}>{item}</div>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {isSocial ? (
+          <section className="mb-12 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+            <div>
+              <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] ${ui.soft}`}>
+                <Icon className="h-3.5 w-3.5" />
+                Social stream
+              </div>
+              <h1 className="mt-5 max-w-4xl text-5xl font-semibold tracking-[-0.05em] text-foreground">A quieter community feed with better breathing room.</h1>
+              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>Short updates and community signals get a conversational frame instead of the same card stack used by listings or articles.</p>
+            </div>
+            <div className={`rounded-[2.2rem] p-6 ${ui.panel}`}>
+              <div className="space-y-3">
+                {['Pinned conversation', 'Recent update', 'Community spotlight'].map((item, index) => (
+                  <div key={item} className={`rounded-[1.35rem] px-4 py-4 ${index === 0 ? ui.soft : 'border border-[#e5d5c8] bg-white'}`}>
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] opacity-65">{item}</p>
+                    <p className="mt-2 text-sm leading-7">A more editorial stack for short-form signals, community links, and quick exchanges.</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
         ) : null}
 
         {layoutKey === 'listing-directory' || layoutKey === 'listing-showcase' ? (
@@ -200,17 +269,10 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         ) : null}
 
         {layoutKey === 'classified-bulletin' || layoutKey === 'classified-market' ? (
-          <section className="mb-12 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <section className="mb-12">
             <div className={`rounded-[1.8rem] p-6 ${ui.panel}`}>
               <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
               <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Fast-moving notices, offers, and responses in a compact board format.</h1>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-              {['Quick to scan', 'Shorter response path', 'Clearer urgency cues'].map((item) => (
-                <div key={item} className={`rounded-[1.5rem] p-5 ${ui.soft}`}>
-                  <p className="text-sm font-semibold">{item}</p>
-                </div>
-              ))}
             </div>
           </section>
         ) : null}
@@ -243,11 +305,6 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
             {intro.paragraphs.map((paragraph) => (
               <p key={paragraph.slice(0, 40)} className={`mt-4 text-sm leading-7 ${ui.muted}`}>{paragraph}</p>
             ))}
-            <div className="mt-4 flex flex-wrap gap-4 text-sm">
-              {intro.links.map((link) => (
-                <a key={link.href} href={link.href} className="font-semibold text-foreground hover:underline">{link.label}</a>
-              ))}
-            </div>
           </section>
         ) : null}
 
