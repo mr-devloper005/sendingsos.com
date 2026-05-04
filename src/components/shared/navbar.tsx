@@ -136,10 +136,10 @@ export function Navbar() {
           </Link>
 
           <div className="hidden min-w-0 items-center justify-center gap-3 lg:flex">
-            <div className="flex min-w-[320px] max-w-xl flex-1 items-center gap-3 rounded-full border border-[#d8c7bc] bg-[#fffaf7] px-4 py-3 text-sm text-[#6c5c58] shadow-[0_14px_36px_rgba(69,40,41,0.06)]">
+            <Link href="/search" className="flex min-w-[320px] max-w-xl flex-1 items-center gap-3 rounded-full border border-[#d8c7bc] bg-[#fffaf7] px-4 py-3 text-sm text-[#6c5c58] shadow-[0_14px_36px_rgba(69,40,41,0.06)] transition hover:border-[#c4b0a3] hover:shadow-[0_18px_42px_rgba(69,40,41,0.1)]">
               <Search className="h-4 w-4 shrink-0 text-[#452829]" />
               <span className="truncate">Search the site</span>
-            </div>
+            </Link>
           </div>
 
           <div className="flex items-center justify-end gap-2 sm:gap-3">
@@ -168,10 +168,10 @@ export function Navbar() {
         {isMobileMenuOpen && (
           <div className="border-t border-[#d8c7bc] bg-[#fffaf7]">
             <div className="mx-auto max-w-7xl space-y-3 px-4 py-4 sm:px-6 lg:px-8">
-              <div className="flex items-center gap-3 rounded-[1.2rem] border border-[#d8c7bc] bg-[#f6ece4] px-4 py-3 text-sm text-[#6c5c58]">
+              <Link href="/search" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 rounded-[1.2rem] border border-[#d8c7bc] bg-[#f6ece4] px-4 py-3 text-sm text-[#6c5c58] transition hover:border-[#c4b0a3]">
                 <Search className="h-4 w-4 text-[#452829]" />
                 Search the site
-              </div>
+              </Link>
               {!isAuthenticated ? (
                 <div className="grid gap-2 pt-2 sm:grid-cols-2">
                   <Button variant="ghost" size="sm" asChild className="rounded-full border border-[#d8c7bc] px-4 text-[#452829] hover:bg-[#efe3da]">
