@@ -491,7 +491,7 @@ export default async function HomePage() {
     await Promise.all(
       homepageTasks.map(async (task) => ({
         task,
-        posts: await fetchTaskPosts(task.key, 8, { allowMockFallback: true, fresh: true }),
+        posts: await fetchTaskPosts(task.key, 8, { fresh: true }),
       }))
     )
   ).filter(({ posts }) => posts.length)
