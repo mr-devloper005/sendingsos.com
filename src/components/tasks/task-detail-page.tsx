@@ -129,7 +129,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
   }
 
   const taskConfig = getTaskConfig(task);
-  let post: SitePost | null = null;
+  let post: SitePost | null | undefined = undefined;
   try {
     post = await fetchTaskPostBySlug(task, slug);
   } catch (error) {
@@ -155,13 +155,6 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
     (typeof content.author === "string" && content.author.trim()) ||
     post.authorName ||
     "Editorial Team";
-  const articleDate = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString("en-IN", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "";
   const postTags = Array.isArray(post.tags) ? post.tags.filter((tag) => typeof tag === "string") : [];
   const location = content.address || content.location;
   const images = getImageUrls(post, content);
@@ -237,7 +230,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
           taskLabel={taskConfig?.label || task}
           taskRoute={taskConfig?.route || "/"}
           post={post}
-          description={description}
+          description={descriptionHtml}
           category={category}
           images={images}
           mapEmbedUrl={mapEmbedUrl}
@@ -263,7 +256,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
               <div className="rounded-[2.25rem] border border-[#d8c7bc] bg-[#fffaf7] p-7 shadow-[0_24px_70px_rgba(69,40,41,0.08)]">
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8a766e]">{category}</p>
                 <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">{post.title}</h1>
-                <p className="mt-4 text-sm leading-8 text-[#6c5c58]">{description}</p>
+                <RichContent html={descriptionHtml} className="mt-4 text-sm leading-8 text-[#6c5c58]" />
                 <div className="mt-6 flex flex-wrap gap-3">
                   {postTags.length ? (
                     postTags.slice(0, 4).map((tag) => (
@@ -353,7 +346,6 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                 </h1>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
                   <span>By {articleAuthor}</span>
-                  {articleDate ? <span>{articleDate}</span> : null}
                   <Badge variant="secondary" className="inline-flex items-center gap-1">
                     <Tag className="h-3.5 w-3.5" />
                     {category}

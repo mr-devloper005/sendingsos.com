@@ -45,7 +45,7 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
   }
 
   const taskConfig = getTaskConfig(task)
-  const posts = await fetchTaskPosts(task, 30, { allowMockFallback: true, fresh: true })
+  const posts = await fetchTaskPosts(task, 30, { fresh: true })
   const normalizedCategory = category ? normalizeCategory(category) : 'all'
   const intro = taskIntroCopy[task]
   const baseUrl = SITE_CONFIG.baseUrl.replace(/\/$/, '')
