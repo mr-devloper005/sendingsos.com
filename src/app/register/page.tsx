@@ -14,11 +14,11 @@ import { useAuth } from '@/lib/auth-context'
 function getRegisterConfig(kind: ReturnType<typeof getProductKind>) {
   if (kind === 'directory') {
     return {
-      shell: 'bg-[#f8fbff] text-slate-950',
-      panel: 'border border-slate-200 bg-white',
-      side: 'border border-slate-200 bg-slate-50',
-      muted: 'text-slate-600',
-      action: 'bg-slate-950 text-white hover:bg-slate-800',
+      shell: 'bg-[linear-gradient(180deg,#fff8f2_0%,#f7ebe1_100%)] text-[#452829]',
+      panel: 'border border-[#d8c7bc] bg-[#fffaf7] shadow-[0_24px_70px_rgba(69,40,41,0.08)]',
+      side: 'border border-[#d8c7bc] bg-[#fff3eb] shadow-[0_24px_70px_rgba(69,40,41,0.08)]',
+      muted: 'text-[#6c5c58]',
+      action: 'bg-[#452829] text-[#fff8f3] hover:bg-[#5a3436]',
       icon: Tag,
       title: 'Create your classifieds account',
       body: 'Post ads, manage listing info, and connect with interested buyers faster.',
@@ -108,14 +108,14 @@ export default function RegisterPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Create account</p>
             <form className="mt-6 grid gap-4" onSubmit={handleSubmit}>
               <input
-                className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm"
+                className="h-12 rounded-xl border border-current/15 bg-white/80 px-4 text-sm placeholder:text-current/55 focus:border-current/35 focus:outline-none"
                 placeholder="Full name"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
                 required
               />
               <input
-                className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm"
+                className="h-12 rounded-xl border border-current/15 bg-white/80 px-4 text-sm placeholder:text-current/55 focus:border-current/35 focus:outline-none"
                 placeholder="Email address"
                 type="email"
                 value={email}
@@ -123,7 +123,7 @@ export default function RegisterPage() {
                 required
               />
               <input
-                className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm"
+                className="h-12 rounded-xl border border-current/15 bg-white/80 px-4 text-sm placeholder:text-current/55 focus:border-current/35 focus:outline-none"
                 placeholder="Password"
                 type="password"
                 value={password}
@@ -131,7 +131,7 @@ export default function RegisterPage() {
                 required
               />
               <input
-                className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm"
+                className="h-12 rounded-xl border border-current/15 bg-white/80 px-4 text-sm placeholder:text-current/55 focus:border-current/35 focus:outline-none"
                 placeholder="What are you creating or publishing?"
                 value={goal}
                 onChange={(event) => setGoal(event.target.value)}
