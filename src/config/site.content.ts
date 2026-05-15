@@ -2,10 +2,10 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Curated classified marketplace',
+    tagline: '',
   },
   footer: {
-    tagline: 'Premium classifieds, trusted listings, and sharp utility',
+    tagline: '',
   },
   hero: {
     badge: 'Premium local classifieds',
