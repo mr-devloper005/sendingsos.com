@@ -270,9 +270,44 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
 
         {layoutKey === 'classified-bulletin' || layoutKey === 'classified-market' ? (
           <section className="mb-12">
-            <div className={`rounded-[1.8rem] p-6 ${ui.panel}`}>
-              <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Fast-moving notices, offers, and responses in a compact board format.</h1>
+            <div className={`grid gap-6 rounded-[1.8rem] p-6 lg:grid-cols-[1fr_auto] lg:items-end ${ui.panel}`}>
+              <div>
+                <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
+                <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Fast-moving notices, offers, and responses in a compact board format.</h1>
+                {normalizedCategory !== 'all' ? (
+                  <p className={`mt-3 text-sm ${ui.muted}`}>
+                    Filter active:{' '}
+                    <span className="font-semibold text-foreground">
+                      {CATEGORY_OPTIONS.find((item) => item.slug === normalizedCategory)?.name || normalizedCategory}
+                    </span>
+                  </p>
+                ) : null}
+              </div>
+              <form action={taskConfig?.route || '#'} className="grid gap-3 sm:grid-cols-[minmax(220px,1fr)_auto_auto] sm:items-end">
+                <div>
+                  <label htmlFor="classified-category-filter" className={`text-xs uppercase tracking-[0.2em] ${ui.muted}`}>Category</label>
+                  <select
+                    id="classified-category-filter"
+                    name="category"
+                    defaultValue={normalizedCategory}
+                    className={`mt-2 h-11 w-full rounded-xl px-3 text-sm ${ui.input}`}
+                  >
+                    <option value="all">All categories</option>
+                    {CATEGORY_OPTIONS.map((item) => (
+                      <option key={item.slug} value={item.slug}>{item.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <button type="submit" className={`h-11 rounded-xl px-4 text-sm font-medium ${ui.button}`}>Apply</button>
+                {normalizedCategory !== 'all' ? (
+                  <Link
+                    href={taskConfig?.route || '#'}
+                    className={`inline-flex h-11 items-center justify-center rounded-xl px-4 text-sm font-medium ${ui.soft}`}
+                  >
+                    Clear
+                  </Link>
+                ) : null}
+              </form>
             </div>
           </section>
         ) : null}

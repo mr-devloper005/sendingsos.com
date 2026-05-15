@@ -51,23 +51,11 @@ export default function ContactPage() {
 
             <div className={`mt-8 rounded-[1.8rem] p-6 ${tone.panel}`}>
               <div className="flex items-center gap-3">
-                <div className={`inline-flex items-center justify-center rounded-full ${tone.badge} h-10 w-10`}>
-                  <Mail className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8a766e]">Email us directly</p>
-                  <p className="mt-1 text-lg font-semibold text-[#452829]">{contactEmail}</p>
-                </div>
-              </div>
-              <a
-                href={`mailto:${contactEmail}`}
-                className={`mt-5 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold ${tone.action}`}
-              >
-                <Mail className="h-4 w-4" />
-                Send email
-                <ArrowRight className="h-4 w-4" />
-              </a>
+               
+               
+              
             </div>
+          </div>
           </div>
 
           <div className={`rounded-[2rem] p-7 ${tone.panel}`}>

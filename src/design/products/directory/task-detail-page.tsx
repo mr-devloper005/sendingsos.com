@@ -84,12 +84,6 @@ export function DirectoryTaskDetailPage({
   const email = typeof content.email === 'string' ? content.email : ''
   const highlights = Array.isArray(content.highlights) ? content.highlights.filter((item): item is string => typeof item === 'string') : []
 
-  const rawPrice = typeof content.price === 'number' || typeof content.price === 'string' ? content.price : null
-  const priceValue = typeof rawPrice === 'number' ? rawPrice : typeof rawPrice === 'string' ? Number(rawPrice) : null
-  const price = Number.isFinite(priceValue) ? (priceValue as number) : null
-  const currency = typeof content.currency === 'string' ? content.currency.trim() : ''
-  const displayPrice = price !== null ? `${price.toLocaleString('en-IN')}${currency ? ` ${currency}` : ''}` : ''
-
   
   const shareUrl = `${taskRoute}/${post.slug}`
 
@@ -147,11 +141,6 @@ export function DirectoryTaskDetailPage({
                 onClick={() => openLightbox(0)}
               >
                 <ContentImage src={images[0]} alt={post.title} fill className="object-cover" />
-                {displayPrice ? (
-                  <div className="absolute right-4 top-4 rounded-2xl bg-white/90 px-4 py-2 text-sm font-semibold text-slate-950 shadow-[0_18px_40px_rgba(15,23,42,0.22)] backdrop-blur">
-                    {displayPrice}
-                  </div>
-                ) : null}
               </div>
               {images.length > 1 ? (
                 <div className="grid grid-cols-4 gap-3 p-4">
@@ -208,12 +197,6 @@ export function DirectoryTaskDetailPage({
               </div>
 
               <div className="mt-6 space-y-3">
-                {price !== null ? (
-                  <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm">
-                    <span className="font-semibold text-slate-950">Price</span>
-                    <span className="font-semibold text-slate-950">{displayPrice || price.toLocaleString('en-IN')}</span>
-                  </div>
-                ) : null}
                 <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm">
                   <span className="font-semibold text-slate-950">Category</span>
                   <span className="text-slate-700">{category || taskLabel}</span>

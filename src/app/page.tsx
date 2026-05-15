@@ -139,7 +139,6 @@ function DirectoryHome({
   profilePosts: SitePost[]
 }) {
   const primaryPosts = (classifiedPosts.length ? classifiedPosts : listingPosts).slice(0, 3)
-  const secondaryPosts = (listingPosts.length ? listingPosts : classifiedPosts).slice(0, 3)
   const supportPreview = [
     { task: 'article' as TaskKey, posts: articlePosts },
     { task: 'pdf' as TaskKey, posts: pdfPosts },
@@ -232,10 +231,7 @@ function DirectoryHome({
           {primaryPosts.map((post) => (
             <TaskPostCard key={post.id} post={post} href={getTaskHref(getPostTask(post, 'classified'), post.slug)} taskKey="classified" />
           ))}
-          {secondaryPosts.slice(0, 1).map((post) => (
-            <TaskPostCard key={post.id} post={post} href={getTaskHref(getPostTask(post, 'listing'), post.slug)} taskKey="listing" />
-          ))}
-          {!primaryPosts.length && !secondaryPosts.length
+          {!primaryPosts.length
             ? fallbackClassifieds.map((ad) => (
                 <Link key={ad.title} href={primaryTask?.route || '/classifieds'} className="rounded-[1.6rem] border border-[#d8c7bc] bg-[#fffaf7] p-5 shadow-[0_20px_48px_rgba(69,40,41,0.08)]">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8a766e]">Classified ad</p>
